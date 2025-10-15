@@ -142,17 +142,20 @@ jobs:
             -v \
             --cov=app \
             --cov-report=xml \
+            --cov-report=html \
             --cov-report=term-missing \
             --cov-fail-under=0
-        continue-on-error: true
+        continue-on-error: false
 
       - name: Upload Coverage Report
-        uses: codecov/codecov-action@v4
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          file: coverage.xml
-          flags: payment-api
-          name: payment-api-coverage
-          fail_ci_if_error: false
+          name: coverage-report
+          path: |
+            coverage.xml
+            htmlcov/
+          retention-days: 30
 
   # ============================================================================
   # Stage 5: Build & Push Docker Image
