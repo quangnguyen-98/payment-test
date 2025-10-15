@@ -39,7 +39,7 @@ async def list_payments(
     limit: int = Query(10, ge=1, le=100, description="Items per page"),
     search: str | None = Query(None, description="Search in request_id, txn_id"),
     sort_by: str | None = Query("created_at", description="Field to sort by"),
-    sort_order: str | None = Query("desc", regex="^(asc|desc)$", description="Sort order"),
+    sort_order: str | None = Query("desc", pattern="^(asc|desc)$", description="Sort order"),
     # Filter parameters
     status: str | None = Query(None, description="Filter by payment status"),
     store_id: int | None = Query(None, description="Filter by store ID"),
