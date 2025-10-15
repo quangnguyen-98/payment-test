@@ -257,8 +257,8 @@ jobs:
           echo "Commit: ${{ github.sha }}"
           echo ""
           echo "Secrets/Variables loaded from environment:"
-          echo "  - KUBE_CONFIG_STAGING: ${{ secrets.KUBE_CONFIG_STAGING != '' && '✅ Present' || '❌ Missing' }}"
-          echo "  - STAGING_API_URL: ${{ secrets.STAGING_API_URL != '' && '✅ Present' || '❌ Missing' }}"
+          echo "  - KUBE_CONFIG: ${{ secrets.KUBE_CONFIG != '' && '✅ Present' || '❌ Missing' }}"
+          echo "  - API_URL: ${{ secrets.API_URL != '' && '✅ Present' || '❌ Missing' }}"
           echo "  - SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL != '' && '✅ Present' || '❌ Missing' }}"
           echo "=========================================="
 
@@ -272,7 +272,7 @@ jobs:
 
       - name: Configure kubectl
         run: |
-          echo "${{ secrets.KUBE_CONFIG_STAGING }}" | base64 -d > kubeconfig
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > kubeconfig
           export KUBECONFIG=kubeconfig
 
       - name: Deploy to Staging
@@ -292,9 +292,9 @@ jobs:
 
       - name: Run Smoke Tests
         run: |
-          STAGING_URL="${{ secrets.STAGING_API_URL }}"
-          curl -f "$STAGING_URL/health" || exit 1
-          curl -f "$STAGING_URL/api/v1/health" || exit 1
+          API_URL="${{ secrets.API_URL }}"
+          curl -f "$API_URL/health" || exit 1
+          curl -f "$API_URL/api/v1/health" || exit 1
 
       - name: Notify Success
         if: success()
@@ -338,8 +338,8 @@ jobs:
           echo "Is Tag: ${{ startsWith(github.ref, 'refs/tags/v') }}"
           echo ""
           echo "Secrets/Variables loaded from environment:"
-          echo "  - KUBE_CONFIG_PRODUCTION: ${{ secrets.KUBE_CONFIG_PRODUCTION != '' && '✅ Present' || '❌ Missing' }}"
-          echo "  - PRODUCTION_API_URL: ${{ secrets.PRODUCTION_API_URL != '' && '✅ Present' || '❌ Missing' }}"
+          echo "  - KUBE_CONFIG: ${{ secrets.KUBE_CONFIG != '' && '✅ Present' || '❌ Missing' }}"
+          echo "  - API_URL: ${{ secrets.API_URL != '' && '✅ Present' || '❌ Missing' }}"
           echo "  - SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL != '' && '✅ Present' || '❌ Missing' }}"
           echo "=========================================="
 
@@ -353,7 +353,7 @@ jobs:
 
       - name: Configure kubectl
         run: |
-          echo "${{ secrets.KUBE_CONFIG_PRODUCTION }}" | base64 -d > kubeconfig
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > kubeconfig
           export KUBECONFIG=kubeconfig
 
       - name: Deploy to Production
@@ -379,9 +379,9 @@ jobs:
 
       - name: Run Smoke Tests
         run: |
-          PROD_URL="${{ secrets.PRODUCTION_API_URL }}"
-          curl -f "$PROD_URL/health" || exit 1
-          curl -f "$PROD_URL/api/v1/health" || exit 1
+          API_URL="${{ secrets.API_URL }}"
+          curl -f "$API_URL/health" || exit 1
+          curl -f "$API_URL/api/v1/health" || exit 1
 
       - name: Create GitHub Release
         if: startsWith(github.ref, 'refs/tags/v')
