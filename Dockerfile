@@ -1,6 +1,6 @@
 # Dockerfile for Payment Gateway API with UV native
 # Multi-stage build for optimized image size
-FROM python:3.11-slim AS builder
+FROM python:3.14-slim AS builder
 
 # Install UV
 RUN pip install --no-cache-dir uv
@@ -18,7 +18,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev
 
 # Final stage - smaller production image
-FROM python:3.11-slim
+FROM python:3.14-slim
 
 # Set environment variables for production
 ENV PYTHONDONTWRITEBYTECODE=1 \
