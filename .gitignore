@@ -154,3 +154,7 @@ Temporary Items
 
 # Local History for Visual Studio Code
 .history/
+
+# Auto-generated files
+requirements.txt
+bandit-report.json

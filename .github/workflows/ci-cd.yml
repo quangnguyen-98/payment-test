@@ -68,7 +68,7 @@ jobs:
         run: uv pip compile pyproject.toml -o requirements.txt
 
       - name: Run pip-audit (Dependency Scan)
-        uses: pypa/gh-action-pip-audit@v1
+        uses: pypa/gh-action-pip-audit@v1.1.0
         with:
           inputs: requirements.txt
           vulnerability-service: osv
