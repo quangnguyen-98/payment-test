@@ -283,7 +283,7 @@ jobs:
 
       - name: Notify Success
         if: success()
-        uses: slackapi/slack-github-action@v1
+        uses: slackapi/slack-github-action@v1.27.0
         with:
           webhook-url: ${{ secrets.SLACK_WEBHOOK_STAGING }}
           payload: |
@@ -364,7 +364,7 @@ jobs:
 
       - name: Notify Success
         if: success()
-        uses: slackapi/slack-github-action@v1
+        uses: slackapi/slack-github-action@v1.27.0
         with:
           webhook-url: ${{ secrets.SLACK_WEBHOOK_PRODUCTION }}
           payload: |
@@ -383,7 +383,7 @@ jobs:
 
       - name: Notify Failure
         if: failure()
-        uses: slackapi/slack-github-action@v1
+        uses: slackapi/slack-github-action@v1.27.0
         with:
           webhook-url: ${{ secrets.SLACK_WEBHOOK_PRODUCTION }}
           payload: |
