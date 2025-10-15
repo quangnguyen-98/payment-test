@@ -1,4 +1,4 @@
-"""STAB Payment API
+"""STAB Payment API.
 
 Main FastAPI application for the payment service.
 Handles payment processing, refunds, and status updates.

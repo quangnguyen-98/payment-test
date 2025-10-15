@@ -94,23 +94,6 @@ class PaymentService:
 
         return PaymentSchema.model_validate(db_payment)
 
-    async def get_payment_status(self, request_id: str) -> PaymentStatusResponse:
-        """Get payment status by request_id."""
-        db_payment = await self.repo.get_by_request_id(request_id)
-        if not db_payment:
-            raise ValueError(f"Payment with request_id {request_id} not found")
-
-        # Return payment status response
-        return PaymentStatusResponse(
-            request_id=db_payment.request_id,
-            qr_string=db_payment.deeplink if db_payment.status == PaymentStatus.PENDING else None,
-            status=db_payment.status.value,
-            amount=float(db_payment.amount),
-            currency=db_payment.currency,
-            expires_at=db_payment.expires_at,
-            txn_id=db_payment.txn_id if db_payment.status == PaymentStatus.COMPLETED else None,
-        )
-
     async def _auto_populate_hierarchy_ids_and_config(
         self,
         terminal_id: int,

@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 class Terminal(BaseModel):
     """Terminal model - Minimal definition for payment gateway
-    References terminals table from stab_portal_api
+    References terminals table from stab_portal_api.
     """
 
     __tablename__ = "terminals"

@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 
 class PayPayService:
-    """Service for integrating with PayPay API using official SDK"""
+    """Service for integrating with PayPay API using official SDK."""
 
     def __init__(
         self,
@@ -46,7 +46,7 @@ class PayPayService:
     async def generate_qr_code(
         self, request_id: str, amount: Decimal, currency: str = "JPY", terminal_id: int = None
     ) -> PayPayQRResponse:
-        """Generate a PayPay QR code for payment using SDK"""
+        """Generate a PayPay QR code for payment using SDK."""
         # Convert Decimal to int (JPY minor units)
         amount_minor = int(amount)
 
@@ -69,7 +69,7 @@ class PayPayService:
             raise upstream_error("Init payment error")
 
     def _generate_real_qr_code(self, request: PayPayQRRequest) -> PayPayQRResponse:
-        """Generate a PayPay QR code using real SDK"""
+        """Generate a PayPay QR code using real SDK."""
         payload = {
             "merchantPaymentId": request.merchant_payment_id,
             "amount": {"amount": request.amount, "currency": request.currency},
@@ -116,7 +116,7 @@ class PayPayService:
             raise upstream_error(f"PayPay SDK error: {str(e)}")
 
     async def get_payment_status(self, merchant_payment_id: str) -> dict[str, Any]:
-        """Get payment status from PayPay"""
+        """Get payment status from PayPay."""
         try:
             response = self.client.Code.get_payment_details(merchant_payment_id)
             data = response.get("data", {})
@@ -137,7 +137,7 @@ class PayPayService:
             raise upstream_error(f"Failed to get payment details: {str(e)}")
 
     async def cancel_payment(self, payment_id: str) -> dict[str, Any]:
-        """Cancel a payment using SDK"""
+        """Cancel a payment using SDK."""
         try:
             return self.client.Payment.cancel_payment(payment_id)
         except Exception as e:
@@ -146,7 +146,7 @@ class PayPayService:
     async def refund_payment(
         self, merchant_refund_id: str, payment_id: str, amount: int
     ) -> dict[str, Any]:
-        """Refund a payment using SDK"""
+        """Refund a payment using SDK."""
         payload = {
             "merchantRefundId": merchant_refund_id,
             "paymentId": payment_id,
@@ -158,7 +158,7 @@ class PayPayService:
             raise upstream_error(f"Failed to refund payment: {str(e)}")
 
     async def delete_qr_code(self, code_id: str) -> dict[str, Any]:
-        """Delete QR code using SDK"""
+        """Delete QR code using SDK."""
         try:
             return self.client.Code.delete_qr_code(code_id)
         except Exception as e:

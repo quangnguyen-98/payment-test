@@ -1,10 +1,10 @@
 """Constants for FilterMixin configuration
-Provides type-safe constants for filter types and operators
+Provides type-safe constants for filter types and operators.
 """
 
 
 class FilterTypes:
-    """Constants for filter types in FILTER_CONFIG"""
+    """Constants for filter types in FILTER_CONFIG."""
 
     DIRECT = "direct"  # Direct field filtering
     JOIN = "join"  # Filter requiring JOIN operations
@@ -14,12 +14,12 @@ class FilterTypes:
 
     @classmethod
     def is_valid(cls, filter_type: str) -> bool:
-        """Check if filter type is valid"""
+        """Check if filter type is valid."""
         return filter_type in cls.ALL
 
 
 class FilterOperators:
-    """Constants for filter operators in FILTER_CONFIG"""
+    """Constants for filter operators in FILTER_CONFIG."""
 
     # Auto-detection based on value type
     AUTO = "auto"
@@ -45,5 +45,5 @@ class FilterOperators:
 
     @classmethod
     def is_valid(cls, operator: str) -> bool:
-        """Check if operator is valid"""
+        """Check if operator is valid."""
         return operator in cls.ALL

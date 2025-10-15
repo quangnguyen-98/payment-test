@@ -3,8 +3,9 @@ Pytest configuration and fixtures for stab-payment-api tests.
 
 Provides reusable fixtures for database, FastAPI client, and mock data.
 """
+
 import asyncio
-from typing import AsyncGenerator, Generator
+from collections.abc import AsyncGenerator, Generator
 
 import pytest
 from fastapi.testclient import TestClient
@@ -12,7 +13,6 @@ from httpx import AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.pool import StaticPool
 
-from app.core.config import settings
 from app.core.database_manager import Base, db_manager
 
 
@@ -55,12 +55,10 @@ async def db_engine():
 @pytest.fixture(scope="function")
 async def db_session(db_engine) -> AsyncGenerator[AsyncSession, None]:
     """Create test database session."""
-    from sqlalchemy.orm import sessionmaker
     from sqlalchemy.ext.asyncio import AsyncSession
+    from sqlalchemy.orm import sessionmaker
 
-    async_session = sessionmaker(
-        db_engine, class_=AsyncSession, expire_on_commit=False
-    )
+    async_session = sessionmaker(db_engine, class_=AsyncSession, expire_on_commit=False)
 
     async with async_session() as session:
         yield session

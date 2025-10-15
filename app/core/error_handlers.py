@@ -26,7 +26,7 @@ def clean_traceback(traceback_str: str) -> str:
     skip_section = False
     in_actual_error = False
 
-    for i, line in enumerate(lines):
+    for _i, line in enumerate(lines):
         # Detect when we're in the actual error section (our code)
         if "/app/" in line or "/main.py" in line:
             in_actual_error = True
@@ -160,21 +160,21 @@ def create_error_response(
     return JSONResponse(status_code=status_code, content=error_response)
 
 
-async def handle_base_api_exception(request: Request, exc: BaseAPIException) -> JSONResponse:
-    """Handle custom API exceptions."""
-    request_id = getattr(request.state, "request_id", "unknown")
-    logger.warning(
-        f"API Exception: {exc.error_code} - {exc.detail} "
-        f"[Path: {request.url.path}] [Method: {request.method}] [ID: {request_id}]"
-    )
-
-    return create_error_response(
-        request=request,
-        status_code=exc.status_code,
-        error_code=exc.error_code,
-        message=exc.detail,
-        details=exc.extra if hasattr(exc, "extra") else None,
-    )
+# async def handle_base_api_exception(request: Request, exc: BaseAPIException) -> JSONResponse:
+#     """Handle custom API exceptions."""
+#     request_id = getattr(request.state, "request_id", "unknown")
+#     logger.warning(
+#         f"API Exception: {exc.error_code} - {exc.detail} "
+#         f"[Path: {request.url.path}] [Method: {request.method}] [ID: {request_id}]"
+#     )
+#
+#     return create_error_response(
+#         request=request,
+#         status_code=exc.status_code,
+#         error_code=exc.error_code,
+#         message=exc.detail,
+#         details=exc.extra if hasattr(exc, "extra") else None,
+#     )
 
 
 async def handle_http_exception(request: Request, exc: HTTPException) -> JSONResponse:
@@ -297,7 +297,7 @@ async def handle_generic_exception(request: Request, exc: Exception) -> JSONResp
     """Handle any unhandled exceptions."""
     # Log the full error with traceback
     # Check if we have request_id to avoid duplicate logging
-    request_id = getattr(request.state, "request_id", "unknown")
+    getattr(request.state, "request_id", "unknown")
     # logger.error(
     #     f"Unhandled Exception: {type(exc).__name__} - {str(exc)} "
     #     f"[Path: {request.url.path}] [Method: {request.method}] [ID: {request_id}]",

@@ -6,7 +6,7 @@ DataT = TypeVar("DataT")
 
 
 class PaginationMeta(BaseModel):
-    """Pagination metadata"""
+    """Pagination metadata."""
 
     page: int = Field(ge=1, description="Current page number")
     limit: int = Field(ge=1, description="Items per page")
@@ -15,14 +15,14 @@ class PaginationMeta(BaseModel):
 
 
 class PaginatedResponse(BaseModel, Generic[DataT]):
-    """Generic paginated response"""
+    """Generic paginated response."""
 
     data: list[DataT]
     pagination: PaginationMeta
 
 
 class ApiResponse(BaseModel, Generic[DataT]):
-    """Generic API response"""
+    """Generic API response."""
 
     data: DataT
     success: bool = True
@@ -30,7 +30,7 @@ class ApiResponse(BaseModel, Generic[DataT]):
 
 
 class BaseFilter(BaseModel):
-    """Base filter for pagination and sorting"""
+    """Base filter for pagination and sorting."""
 
     page: int = Field(default=1, ge=1, description="Page number")
     limit: int = Field(default=10, ge=1, description="Items per page")
@@ -40,7 +40,7 @@ class BaseFilter(BaseModel):
 
 
 class ErrorResponse(BaseModel):
-    """Error response schema"""
+    """Error response schema."""
 
     success: bool = False
     error: str

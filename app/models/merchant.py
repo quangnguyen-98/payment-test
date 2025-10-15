@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 class Merchant(BaseModel):
     """Merchant model - Minimal definition for payment gateway
-    References merchants table from stab_portal_api
+    References merchants table from stab_portal_api.
     """
 
     __tablename__ = "merchants"

@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 
 class Store(BaseModel):
     """Store model - Minimal definition for payment gateway
-    References stores table from stab_portal_api
+    References stores table from stab_portal_api.
     """
 
     __tablename__ = "stores"
