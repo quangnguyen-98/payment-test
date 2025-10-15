@@ -91,27 +91,7 @@ jobs:
           retention-days: 30
 
   # ============================================================================
-  # Stage 3: AI Code Review
-  # ============================================================================
-  ai-review:
-    name: AI Code Review
-    runs-on: ubuntu-latest
-    needs: security
-    if: github.event_name == 'pull_request'
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: AI Code Review with CodeRabbit
-        uses: coderabbitai/action@v1
-        continue-on-error: true
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
-  # ============================================================================
-  # Stage 4: Testing
+  # Stage 3: Testing
   # ============================================================================
   test:
     name: Testing
@@ -158,7 +138,7 @@ jobs:
           retention-days: 30
 
   # ============================================================================
-  # Stage 5: Build & Push Docker Image
+  # Stage 4: Build & Push Docker Image
   # ============================================================================
   build:
     name: Build Docker Image
@@ -211,7 +191,7 @@ jobs:
             PYTHON_VERSION=${{ env.PYTHON_VERSION }}
 
   # ============================================================================
-  # Deploy to Staging
+  # Stage 5: Deploy to Staging
   # ============================================================================
   deploy-staging:
     name: Deploy to Staging
@@ -274,7 +254,7 @@ jobs:
             }
 
   # ============================================================================
-  # Deploy to Production
+  # Stage 6: Deploy to Production
   # ============================================================================
   deploy-production:
     name: Deploy to Production
