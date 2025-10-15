@@ -17,8 +17,8 @@ class Settings(BaseSettings):
     HOST: str = "0.0.0.0"
     PORT: int = 8000
 
-    # Environment (only local and production supported)
-    ENVIRONMENT: Literal["local", "production"] = "local"
+    # Environment (local, test, production)
+    ENVIRONMENT: Literal["local", "test", "production"] = "local"
 
     # Documentation control (independent from DEBUG mode)
     ENABLE_DOCS: bool = True

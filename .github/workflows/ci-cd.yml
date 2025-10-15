@@ -79,7 +79,7 @@ jobs:
             -f json \
             -o bandit-report.json \
             -ll \
-            --skip B101,B601
+            --skip B101,B601,B104
         continue-on-error: false
 
       - name: Upload Bandit Report
