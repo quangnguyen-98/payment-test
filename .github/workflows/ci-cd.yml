@@ -47,7 +47,7 @@ jobs:
   security:
     name: Security Scanning
     runs-on: ubuntu-latest
-    needs: quality
+    # OPTIMIZED: Run in parallel with quality (no dependency)
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -138,12 +138,12 @@ jobs:
   #         temperature: 1
 
   # ============================================================================
-  # Stage 4: Testing
+  # Stage 3: Testing
   # ============================================================================
   test:
     name: Testing
     runs-on: ubuntu-latest
-    needs: [quality, security]
+    needs: [quality, security]  # Wait for BOTH quality and security to pass
 
     steps:
       - name: Checkout Code
@@ -185,13 +185,13 @@ jobs:
           retention-days: 30
 
   # ============================================================================
-  # Stage 5: Build & Push Docker Image
+  # Stage 4: Build & Push Docker Image
   # ============================================================================
   build:
     name: Build Docker Image
     runs-on: ubuntu-latest
     needs: test
-    if: github.event_name == 'push'
+    if: github.event_name == 'push'  # Only run on push events (not PRs)
     permissions:
       contents: read
       packages: write
@@ -238,7 +238,7 @@ jobs:
             PYTHON_VERSION=${{ env.PYTHON_VERSION }}
 
   # ============================================================================
-  # Stage 6: Deploy to Staging
+  # Stage 5: Deploy to Staging
   # ============================================================================
   deploy-staging:
     name: Deploy to Staging
@@ -301,7 +301,7 @@ jobs:
             }
 
   # ============================================================================
-  # Stage 7: Deploy to Production
+  # Stage 6: Deploy to Production
   # ============================================================================
   deploy-production:
     name: Deploy to Production
@@ -401,27 +401,47 @@ jobs:
             }
 
   # ============================================================================
-  # CI/CD Success Gate
+  # Stage 7: CI/CD Success Gate
   # ============================================================================
   ci-cd-success:
     name: CI/CD Success
     runs-on: ubuntu-latest
-    needs: [quality, security, test, build]
+    # FIXED: Must check ALL stages including deploy
+    needs: [quality, security, test, build, deploy-staging, deploy-production]
     if: always()
     steps:
       - name: Check All Jobs Status
         run: |
-          echo "Quality: ${{ needs.quality.result }}"
-          echo "Security: ${{ needs.security.result }}"
-          echo "Test: ${{ needs.test.result }}"
-          echo "Build: ${{ needs.build.result }}"
+          echo "=== CI/CD Pipeline Status ==="
+          echo "Quality:     ${{ needs.quality.result }}"
+          echo "Security:    ${{ needs.security.result }}"
+          echo "Test:        ${{ needs.test.result }}"
+          echo "Build:       ${{ needs.build.result }}"
+          echo "Deploy-Stg:  ${{ needs.deploy-staging.result }}"
+          echo "Deploy-Prod: ${{ needs.deploy-production.result }}"
+          echo ""
 
+          # Check required stages (always run)
           if [[ "${{ needs.quality.result }}" != "success" ]] || \
              [[ "${{ needs.security.result }}" != "success" ]] || \
-             [[ "${{ needs.test.result }}" != "success" ]] || \
-             [[ "${{ github.event_name }}" == "push" && "${{ needs.build.result }}" != "success" ]]; then
-            echo "❌ CI/CD Failed"
+             [[ "${{ needs.test.result }}" != "success" ]]; then
+            echo "❌ CI/CD Failed: Required stages failed"
             exit 1
+          fi
+
+          # Check build stage (only runs on push)
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            if [[ "${{ needs.build.result }}" != "success" ]]; then
+              echo "❌ CI/CD Failed: Build stage failed"
+              exit 1
+            fi
+
+            # Check deploy stages (conditional based on branch)
+            if [[ "${{ needs.deploy-staging.result }}" == "failure" ]] || \
+               [[ "${{ needs.deploy-production.result }}" == "failure" ]]; then
+              echo "❌ CI/CD Failed: Deployment stage failed"
+              exit 1
+            fi
           fi
 
           echo "✅ CI/CD Passed"
