@@ -3,6 +3,7 @@ Unit tests for database models.
 
 Tests model creation, validation, and relationships.
 """
+
 from decimal import Decimal
 
 import pytest

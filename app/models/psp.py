@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 class Psp(BaseModel):
     """PSP model - Minimal definition for payment gateway
-    References psps table from stab_portal_api
+    References psps table from stab_portal_api.
     """
 
     __tablename__ = "psps"

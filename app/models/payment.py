@@ -10,7 +10,7 @@ from app.models.base import BaseModel
 
 
 class PaymentStatus(str, enum.Enum):
-    """Payment status enumeration"""
+    """Payment status enumeration."""
 
     PENDING = "PENDING"
     COMPLETED = "COMPLETED"
@@ -20,7 +20,7 @@ class PaymentStatus(str, enum.Enum):
 
 
 class PaymentTender(str, enum.Enum):
-    """Payment tender enumeration"""
+    """Payment tender enumeration."""
 
     PAYPAY = "PAYPAY"
     RAKUTEN = "RAKUTEN"
@@ -28,7 +28,7 @@ class PaymentTender(str, enum.Enum):
 
 class Payment(BaseModel):
     """Payment model - SQLAlchemy v2 style with type annotations
-    Enhanced for payment gateway integration
+    Enhanced for payment gateway integration.
     """
 
     __tablename__ = "payments"

@@ -171,6 +171,8 @@ ignore = [
     "E501",   # line too long (handled by formatter)
     "B008",   # do not perform function calls in argument defaults
     "B905",   # zip() without an explicit strict= parameter
+    "B904",   # raise without from inside except (intentional in many cases)
+    "B007",   # unused loop variable
     "D100",   # Missing docstring in public module
     "D101",   # Missing docstring in public class
     "D102",   # Missing docstring in public method
@@ -179,7 +181,15 @@ ignore = [
     "D105",   # Missing docstring in magic method
     "D107",   # Missing docstring in __init__
     "D203",   # 1 blank line required before class docstring (conflicts with D211)
+    "D205",   # 1 blank line required between summary and description
+    "D212",   # Multi-line docstring summary should start at first line
     "D213",   # Multi-line docstring summary should start at second line (conflicts with D212)
+    "D400",   # First line should end with a period
+    "D401",   # First line should be in imperative mood
+    "D415",   # First line should end with punctuation
+    "S104",   # Binding to 0.0.0.0 (expected in config)
+    "S105",   # Hardcoded password (false positives in config)
+    "N815",   # Mixed case variable (required by external APIs like PayPay)
 ]
 
 [tool.ruff.lint.per-file-ignores]

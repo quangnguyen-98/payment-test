@@ -3,7 +3,6 @@ API integration tests for health check endpoints.
 
 Tests application health, readiness, and basic API functionality.
 """
-import pytest
 
 
 class TestHealthEndpoints:

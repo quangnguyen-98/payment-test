@@ -90,14 +90,15 @@ class BaseResponseSchema(BaseModel):
                             # Skip methods and properties that might trigger queries
                             if not callable(value):
                                 result[key] = value
-                        except:
+                        except (AttributeError, TypeError):
+                            # Ignore attributes that can't be accessed
                             pass
 
                 return result
 
             except Exception:
                 # If not a SQLAlchemy model or any error, return as is
-                pass
+                return data
 
         return data
 

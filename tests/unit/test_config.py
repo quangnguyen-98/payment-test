@@ -3,9 +3,8 @@ Unit tests for application configuration.
 
 Tests settings validation and environment-specific configurations.
 """
-import pytest
 
-from app.core.config import Settings, settings
+from app.core.config import settings
 
 
 class TestSettings:

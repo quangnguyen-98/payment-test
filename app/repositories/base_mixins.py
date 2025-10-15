@@ -4,6 +4,7 @@ Provides common CRUD operations while keeping flexibility.
 """
 
 import enum
+import logging
 from collections.abc import Sequence
 from datetime import datetime
 from typing import Any, Generic, TypeVar
@@ -108,7 +109,7 @@ class CRUDMixin(Generic[ModelT]):
                 # If search requested but no SEARCHABLE_FIELDS configured, return empty result
                 if not hasattr(self, "SEARCHABLE_FIELDS") or not self.SEARCHABLE_FIELDS:
                     # Force empty result by adding impossible condition
-                    stmt = stmt.where(self.id_attr == None)
+                    stmt = stmt.where(self.id_attr is None)
                 else:
                     search_conditions = self.build_search_conditions(filters.search)
                     if search_conditions is not None:
@@ -168,7 +169,7 @@ class CRUDMixin(Generic[ModelT]):
                 # If search requested but no SEARCHABLE_FIELDS configured, return empty result
                 if not hasattr(self, "SEARCHABLE_FIELDS") or not self.SEARCHABLE_FIELDS:
                     # Force empty result by adding impossible condition
-                    count_stmt = count_stmt.where(self.id_attr == None)
+                    count_stmt = count_stmt.where(self.id_attr is None)
                 else:
                     search_conditions = self.build_search_conditions(filters.search)
                     if search_conditions is not None:
@@ -371,8 +372,6 @@ class SearchMixin:
 Updated FilterMixin with declarative configuration
 This will replace the old hardcoded FilterMixin
 """
-import logging
-from typing import Any
 
 logger = logging.getLogger(__name__)
 

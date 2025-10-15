@@ -3,10 +3,11 @@ Unit tests for database manager and connection.
 
 Tests database lifecycle, health checks, and session management.
 """
-import pytest
-from sqlalchemy import select, text
 
-from app.core.database_manager import Base, db_manager
+import pytest
+from sqlalchemy import text
+
+from app.core.database_manager import Base
 
 
 class TestDatabaseManager:
@@ -37,9 +38,7 @@ class TestDatabaseManager:
         async with db_engine.begin() as conn:
             # Check if tables exist
             result = await conn.run_sync(
-                lambda sync_conn: sync_conn.dialect.has_table(
-                    sync_conn, "payments"
-                )
+                lambda sync_conn: sync_conn.dialect.has_table(sync_conn, "payments")
             )
             assert result is True
 
