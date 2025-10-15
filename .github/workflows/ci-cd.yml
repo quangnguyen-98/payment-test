@@ -2,10 +2,10 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, stg]
     tags: ['v*']
   pull_request:
-    branches: [main, develop]
+    branches: [main, stg]
 
 env:
   PYTHON_VERSION: '3.11'
@@ -244,7 +244,7 @@ jobs:
     name: Deploy to Staging
     runs-on: ubuntu-latest
     needs: build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/stg'
     environment: staging
     steps:
       - name: Verify Environment Configuration
@@ -278,7 +278,7 @@ jobs:
       - name: Deploy to Staging
         run: |
           kubectl set image deployment/payment-api \
-            payment-api=${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:develop-${{ github.sha }} \
+            payment-api=${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:stg-${{ github.sha }} \
             -n staging
 
       - name: Wait for Rollout
@@ -309,7 +309,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*Payment API* deployed to *🔧 STAGING*\n*Commit:* ${{ github.sha }}\n*Branch:* develop"
+                    "text": "*Payment API* deployed to *🔧 STAGING*\n*Commit:* ${{ github.sha }}\n*Branch:* stg"
                   }
                 }
               ]
