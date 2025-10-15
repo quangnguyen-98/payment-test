@@ -285,16 +285,16 @@ jobs:
         if: success()
         uses: slackapi/slack-github-action@v1.27.0
         with:
-          webhook-url: ${{ secrets.SLACK_WEBHOOK_STAGING }}
+          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
           payload: |
             {
-              "text": "✅ Payment API deployed to STAGING",
+              "text": "✅ [STAGING] Payment API deployed successfully",
               "blocks": [
                 {
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*Payment API* deployed to *Staging*\n*Commit:* ${{ github.sha }}\n*Branch:* develop"
+                    "text": "*Payment API* deployed to *🔧 STAGING*\n*Commit:* ${{ github.sha }}\n*Branch:* develop"
                   }
                 }
               ]
@@ -366,16 +366,16 @@ jobs:
         if: success()
         uses: slackapi/slack-github-action@v1.27.0
         with:
-          webhook-url: ${{ secrets.SLACK_WEBHOOK_PRODUCTION }}
+          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
           payload: |
             {
-              "text": "🚀 Payment API deployed to PRODUCTION",
+              "text": "🚀 [PRODUCTION] Payment API deployed successfully",
               "blocks": [
                 {
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*Payment API* deployed to *Production*\n*Version:* ${{ github.ref_name }}\n*Commit:* ${{ github.sha }}"
+                    "text": "*Payment API* deployed to *🚀 PRODUCTION*\n*Version:* ${{ github.ref_name }}\n*Commit:* ${{ github.sha }}"
                   }
                 }
               ]
@@ -385,16 +385,16 @@ jobs:
         if: failure()
         uses: slackapi/slack-github-action@v1.27.0
         with:
-          webhook-url: ${{ secrets.SLACK_WEBHOOK_PRODUCTION }}
+          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
           payload: |
             {
-              "text": "❌ Payment API deployment FAILED",
+              "text": "❌ [PRODUCTION] Payment API deployment FAILED",
               "blocks": [
                 {
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*Payment API* deployment to *Production* FAILED\n*Check:* https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                    "text": "*Payment API* deployment to *🚀 PRODUCTION* FAILED\n*Check:* https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
                   }
                 }
               ]
