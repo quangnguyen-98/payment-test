@@ -247,6 +247,21 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
     environment: staging
     steps:
+      - name: Verify Environment Configuration
+        run: |
+          echo "=========================================="
+          echo "🔧 STAGING ENVIRONMENT VERIFICATION"
+          echo "=========================================="
+          echo "Environment: staging"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
+          echo ""
+          echo "Secrets/Variables loaded from environment:"
+          echo "  - KUBE_CONFIG_STAGING: ${{ secrets.KUBE_CONFIG_STAGING != '' && '✅ Present' || '❌ Missing' }}"
+          echo "  - STAGING_API_URL: ${{ secrets.STAGING_API_URL != '' && '✅ Present' || '❌ Missing' }}"
+          echo "  - SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL != '' && '✅ Present' || '❌ Missing' }}"
+          echo "=========================================="
+
       - name: Checkout Code
         uses: actions/checkout@v4
 
@@ -312,6 +327,22 @@ jobs:
       (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
     environment: production
     steps:
+      - name: Verify Environment Configuration
+        run: |
+          echo "=========================================="
+          echo "🚀 PRODUCTION ENVIRONMENT VERIFICATION"
+          echo "=========================================="
+          echo "Environment: production"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Is Tag: ${{ startsWith(github.ref, 'refs/tags/v') }}"
+          echo ""
+          echo "Secrets/Variables loaded from environment:"
+          echo "  - KUBE_CONFIG_PRODUCTION: ${{ secrets.KUBE_CONFIG_PRODUCTION != '' && '✅ Present' || '❌ Missing' }}"
+          echo "  - PRODUCTION_API_URL: ${{ secrets.PRODUCTION_API_URL != '' && '✅ Present' || '❌ Missing' }}"
+          echo "  - SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL != '' && '✅ Present' || '❌ Missing' }}"
+          echo "=========================================="
+
       - name: Checkout Code
         uses: actions/checkout@v4
 
