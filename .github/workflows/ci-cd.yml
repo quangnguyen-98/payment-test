@@ -257,9 +257,9 @@ jobs:
           echo "Commit: ${{ github.sha }}"
           echo ""
           echo "Secrets/Variables loaded from environment:"
-          echo "  - KUBE_CONFIG: ${{ secrets.KUBE_CONFIG != '' && '✅ Present' || '❌ Missing' }}"
-          echo "  - API_URL: ${{ secrets.API_URL != '' && '✅ Present' || '❌ Missing' }}"
-          echo "  - SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL != '' && '✅ Present' || '❌ Missing' }}"
+          echo "  - KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}"
+          echo "  - API_URL: ${{ secrets.API_URL  }}"
+          echo "  - SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}"
           echo "=========================================="
 
       - name: Checkout Code
@@ -297,8 +297,8 @@ jobs:
           curl -f "$API_URL/api/v1/health" || exit 1
 
       - name: Notify Success
-        if: success()
-        uses: slackapi/slack-github-action@v1.27.0
+        if: ${{ success() }}
+        uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117
         with:
           webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
           payload: |
@@ -310,6 +310,25 @@ jobs:
                   "text": {
                     "type": "mrkdwn",
                     "text": "*Payment API* deployed to *🔧 STAGING*\n*Commit:* ${{ github.sha }}\n*Branch:* stg"
+                  }
+                }
+              ]
+            }
+
+      - name: Notify Failure
+        if: ${{ failure() }}
+        uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          payload: |
+            {
+              "text": "❌ [STAGING] Payment API deployment FAILED",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Payment API* deployment to *🔧 STAGING* FAILED\n*Check:* https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
                   }
                 }
               ]
@@ -338,9 +357,9 @@ jobs:
           echo "Is Tag: ${{ startsWith(github.ref, 'refs/tags/v') }}"
           echo ""
           echo "Secrets/Variables loaded from environment:"
-          echo "  - KUBE_CONFIG: ${{ secrets.KUBE_CONFIG != '' && '✅ Present' || '❌ Missing' }}"
-          echo "  - API_URL: ${{ secrets.API_URL != '' && '✅ Present' || '❌ Missing' }}"
-          echo "  - SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL != '' && '✅ Present' || '❌ Missing' }}"
+          echo "  - KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}"
+          echo "  - API_URL: ${{ secrets.API_URL  }}"
+          echo "  - SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}"
           echo "=========================================="
 
       - name: Checkout Code
@@ -394,8 +413,8 @@ jobs:
             Deployed to production at $(date -u +'%Y-%m-%d %H:%M:%S UTC')
 
       - name: Notify Success
-        if: success()
-        uses: slackapi/slack-github-action@v1.27.0
+        if: ${{ success() }}
+        uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117
         with:
           webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
           payload: |
@@ -413,8 +432,8 @@ jobs:
             }
 
       - name: Notify Failure
-        if: failure()
-        uses: slackapi/slack-github-action@v1.27.0
+        if: ${{ failure() }}
+        uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117
         with:
           webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
           payload: |
