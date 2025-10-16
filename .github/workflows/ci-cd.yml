@@ -297,7 +297,7 @@ jobs:
           curl -f "$API_URL/api/v1/health" || exit 1
 
       - name: Notify Success
-        if: success()
+        if: ${{ success() }}
         uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117
         with:
           webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -316,7 +316,7 @@ jobs:
             }
 
       - name: Notify Failure
-        if: failure()
+        if: ${{ failure() }}
         uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117
         with:
           webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -413,7 +413,7 @@ jobs:
             Deployed to production at $(date -u +'%Y-%m-%d %H:%M:%S UTC')
 
       - name: Notify Success
-        if: success()
+        if: ${{ success() }}
         uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117
         with:
           webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
