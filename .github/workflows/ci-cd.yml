@@ -315,6 +315,25 @@ jobs:
               ]
             }
 
+      - name: Notify Failure
+        if: failure()
+        uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          payload: |
+            {
+              "text": "❌ [STAGING] Payment API deployment FAILED",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Payment API* deployment to *🔧 STAGING* FAILED\n*Check:* https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                  }
+                }
+              ]
+            }
+
   # ============================================================================
   # Stage 6: Deploy to Production
   # ============================================================================
@@ -413,7 +432,7 @@ jobs:
             }
 
       - name: Notify Failure
-        if: failure()
+        if: ${{ failure() }}
         uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117
         with:
           webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
