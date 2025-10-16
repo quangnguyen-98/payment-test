@@ -257,9 +257,9 @@ jobs:
           echo "Commit: ${{ github.sha }}"
           echo ""
           echo "Secrets/Variables loaded from environment:"
-          echo "  - KUBE_CONFIG: ${{ secrets.KUBE_CONFIG != '' && '✅ Present' || '❌ Missing' }}"
-          echo "  - API_URL: ${{ secrets.API_URL != '' && '✅ Present' || '❌ Missing' }}"
-          echo "  - SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL != '' && '✅ Present' || '❌ Missing' }}"
+          echo "  - KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}"
+          echo "  - API_URL: ${{ secrets.API_URL  }}"
+          echo "  - SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}"
           echo "=========================================="
 
       - name: Checkout Code
@@ -357,9 +357,9 @@ jobs:
           echo "Is Tag: ${{ startsWith(github.ref, 'refs/tags/v') }}"
           echo ""
           echo "Secrets/Variables loaded from environment:"
-          echo "  - KUBE_CONFIG: ${{ secrets.KUBE_CONFIG != '' && '✅ Present' || '❌ Missing' }}"
-          echo "  - API_URL: ${{ secrets.API_URL != '' && '✅ Present' || '❌ Missing' }}"
-          echo "  - SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL != '' && '✅ Present' || '❌ Missing' }}"
+          echo "  - KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}"
+          echo "  - API_URL: ${{ secrets.API_URL  }}"
+          echo "  - SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}"
           echo "=========================================="
 
       - name: Checkout Code
