@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up uv
         uses: astral-sh/setup-uv@v3
@@ -50,7 +50,7 @@ jobs:
     # OPTIMIZED: Run in parallel with quality (no dependency)
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up uv
         uses: astral-sh/setup-uv@v3
@@ -123,7 +123,7 @@ jobs:
   #     pull-requests: write
   #   steps:
   #     - name: Checkout Code
-  #       uses: actions/checkout@v4
+  #       uses: actions/checkout@v5
   #
   #     - name: Gemini Code Review
   #       uses: anc95/ChatGPT-CodeReview@main
@@ -147,7 +147,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up uv
         uses: astral-sh/setup-uv@v3
@@ -199,7 +199,7 @@ jobs:
       image_tag: ${{ steps.meta.outputs.tags }}
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -263,7 +263,7 @@ jobs:
           echo "=========================================="
 
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup kubectl
         uses: azure/setup-kubectl@v4
@@ -361,7 +361,7 @@ jobs:
           echo "=========================================="
 
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup kubectl
         uses: azure/setup-kubectl@v4
